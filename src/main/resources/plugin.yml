@@ -1,7 +1,10 @@
 main: com.gmail.markushygedombrowski.HLUtils
 version: "1.0"
 name: HLUtils
+softdepend:  [Vault,WorldGuard,WorldEdit]
 commands:
   gamemode:
     aliases: ["gm"]
     description: "gamemode"
+  hlutilsreload:
+    description: "reload"

@@ -1,0 +1,8 @@
+warps:
+  1:
+    name: "defaultwarp"
+    location:
+      x: 50
+      y: 100
+      z: 20
+      world: "world"

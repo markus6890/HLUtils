@@ -34,4 +34,18 @@ public class ConfigManager {
         warpscfg = YamlConfiguration.loadConfiguration(warpsFile);
 
     }
+
+    public FileConfiguration getWarps() {
+        return warpscfg;
+    }
+    public void saveWarps () {
+        try {
+            warpscfg.save(warpsFile);
+        } catch (IOException e) {
+            Bukkit.getServer().getConsoleSender().sendMessage(ChatColor.RED + "could not save warps.yml File");
+        }
+    }
+    public void reloadWarps() {
+        warpscfg = YamlConfiguration.loadConfiguration(warpsFile);
+    }
 }

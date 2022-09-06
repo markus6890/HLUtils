@@ -1,0 +1,7 @@
+main: com.gmail.markushygedombrowski.HLUtils
+version: "1.0"
+name: HLUtils
+commands:
+  gamemode:
+    aliases: ["gm"]
+    description: "gamemode"

@@ -1,10 +1,12 @@
 package com.gmail.markushygedombrowski;
 
+import com.gmail.markushygedombrowski.commands.GamemodeCommand;
 import com.gmail.markushygedombrowski.utils.ConfigManager;
 import com.gmail.markushygedombrowski.utils.Configreloadcommand;
 import com.gmail.markushygedombrowski.warp.WarpCommand;
 import com.gmail.markushygedombrowski.warp.WarpManager;
 import net.milkbowl.vault.economy.Economy;
+import org.bukkit.GameMode;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -19,6 +21,9 @@ public class HLUtils extends JavaPlugin {
         saveDefaultConfig();
         FileConfiguration config = getConfig();
 
+
+        GamemodeCommand gamemodeCommand = new GamemodeCommand();
+        getCommand("hlgamemode").setExecutor(gamemodeCommand);
         Configreloadcommand configreloadcommand = new Configreloadcommand(this);
         getCommand("hlutilsreload").setExecutor(configreloadcommand);
 
@@ -46,7 +51,7 @@ public class HLUtils extends JavaPlugin {
         warpManager = new WarpManager(this,configM);
         warpManager.load();
         WarpCommand warpCommand = new WarpCommand(warpManager, this);
-        getCommand("hlutilswarp").setExecutor(warpCommand);
+        getCommand("hlutilwarp").setExecutor(warpCommand);
     }
 
     public void reload() {

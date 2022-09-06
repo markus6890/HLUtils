@@ -3,8 +3,10 @@ version: "1.0"
 name: HLUtils
 softdepend:  [Vault,WorldGuard,WorldEdit]
 commands:
-  gamemode:
-    aliases: ["gm"]
+  hlgamemode:
+    aliases: ["hlgm"]
     description: "gamemode"
   hlutilsreload:
     description: "reload"
+  hlutilwarp:
+    aliases: ["hlutilsetwarp"]

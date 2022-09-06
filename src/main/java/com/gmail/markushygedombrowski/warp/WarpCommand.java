@@ -23,7 +23,7 @@ public class WarpCommand implements CommandExecutor {
             return true;
         }
         if (args.length == 0) {
-            sender.sendMessage("§e/hlwarp <name>");
+            sender.sendMessage("§e/hlutilsetwarp <name>");
             return true;
         }
         if (!(sender instanceof Player)) {
@@ -34,7 +34,7 @@ public class WarpCommand implements CommandExecutor {
         String warpName = args[0];
         WarpInfo info = warpManager.getWarpInfo(warpName);
 
-        if (alias.equalsIgnoreCase("sethlWarp")) {
+        if (alias.equalsIgnoreCase("hlutilsetwarp")) {
             setWarp(sender, player, warpName, info);
             return true;
         }
@@ -44,20 +44,6 @@ public class WarpCommand implements CommandExecutor {
             return true;
         }
 
-        /*Runnable runnable = new Runnable() {
-            @Override
-            public void run() {
-                player.teleport(info.getLocation());
-            }
-        };
-
-        BukkitTask task = Bukkit.getScheduler().runTaskTimer(plugin, runnable, 20, 20);
-        Bukkit.getScheduler().runTaskLater(plugin, new Runnable() {
-            @Override
-            public void run() {
-                Bukkit.getScheduler().cancelTask(task.getTaskId());
-            }
-        }, 20 * 20); */
 
         player.teleport(info.getLocation());
         return true;

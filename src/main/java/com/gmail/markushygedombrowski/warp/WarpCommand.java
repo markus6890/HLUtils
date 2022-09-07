@@ -23,7 +23,7 @@ public class WarpCommand implements CommandExecutor {
             return true;
         }
         if (args.length == 0) {
-            sender.sendMessage("§e/hlutilsetwarp <name>");
+            sender.sendMessage("§e/hlwarp <name>");
             return true;
         }
         if (!(sender instanceof Player)) {
@@ -34,7 +34,7 @@ public class WarpCommand implements CommandExecutor {
         String warpName = args[0];
         WarpInfo info = warpManager.getWarpInfo(warpName);
 
-        if (alias.equalsIgnoreCase("hlutilsetwarp")) {
+        if (alias.equalsIgnoreCase("hlsetwarp")) {
             setWarp(sender, player, warpName, info);
             return true;
         }

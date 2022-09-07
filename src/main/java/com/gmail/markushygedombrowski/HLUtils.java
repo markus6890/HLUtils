@@ -51,7 +51,7 @@ public class HLUtils extends JavaPlugin {
         warpManager = new WarpManager(this,configM);
         warpManager.load();
         WarpCommand warpCommand = new WarpCommand(warpManager, this);
-        getCommand("hlutilwarp").setExecutor(warpCommand);
+        getCommand("hlwarp").setExecutor(warpCommand);
     }
 
     public void reload() {

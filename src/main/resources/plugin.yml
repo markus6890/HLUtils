@@ -8,5 +8,8 @@ commands:
     description: "gamemode"
   hlutilsreload:
     description: "reload"
-  hlutilwarp:
-    aliases: ["hlutilsetwarp"]
+  hlwarp:
+    aliases: ["hlsetwarp"]
+    description: "HLWarp System"
+  hltp:
+    aliases: ["hltphere"]

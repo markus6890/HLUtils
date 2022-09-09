@@ -1,12 +1,14 @@
 package com.gmail.markushygedombrowski;
 
 import com.gmail.markushygedombrowski.commands.GamemodeCommand;
+import com.gmail.markushygedombrowski.commands.TpCommands;
+import com.gmail.markushygedombrowski.listener.BreakBlockListener;
 import com.gmail.markushygedombrowski.utils.ConfigManager;
 import com.gmail.markushygedombrowski.utils.Configreloadcommand;
 import com.gmail.markushygedombrowski.warp.WarpCommand;
 import com.gmail.markushygedombrowski.warp.WarpManager;
 import net.milkbowl.vault.economy.Economy;
-import org.bukkit.GameMode;
+import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -24,10 +26,17 @@ public class HLUtils extends JavaPlugin {
 
         GamemodeCommand gamemodeCommand = new GamemodeCommand();
         getCommand("hlgamemode").setExecutor(gamemodeCommand);
+
+        TpCommands tpCommands = new TpCommands();
+        getCommand("hltp").setExecutor(tpCommands);
+
+
         Configreloadcommand configreloadcommand = new Configreloadcommand(this);
         getCommand("hlutilsreload").setExecutor(configreloadcommand);
 
         initWarps();
+        BreakBlockListener breakBlockListener = new BreakBlockListener();
+        Bukkit.getPluginManager().registerEvents(breakBlockListener,this);
         if (!setupEconomy()) {
             getLogger().severe(String.format("[%s] - Disabled due to no Vault dependency found!", getDescription().getName()));
             getServer().getPluginManager().disablePlugin(this);

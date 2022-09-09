@@ -23,7 +23,7 @@ public class TpCommands implements CommandExecutor {
             sender.sendMessage("/tp <player> \"to\" <player>");
             return true;
         }
-        if (alias.equalsIgnoreCase("tphere")) {
+        if (alias.equalsIgnoreCase("hltphere")) {
             p1 = (Player) sender;
             p2 = Bukkit.getPlayer(args[0]);
             loc = p1.getLocation();

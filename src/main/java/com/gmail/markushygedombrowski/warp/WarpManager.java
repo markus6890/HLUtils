@@ -28,9 +28,11 @@ public class WarpManager {
             double x = config.getDouble("warps." + key + ".location.x");
             double y = config.getDouble("warps." + key + ".location.y");
             double z = config.getDouble("warps." + key + ".location.z");
+            float yawn = (float) config.getDouble("warps." + key + ".location.yawn");
+            float pitch = (float) config.getDouble("warps." + key + ".location.pitch");
             String stringWorld = config.getString("warps." + key + ".location.world");
             World world = Bukkit.getWorld(stringWorld);
-            Location location = new Location(world, x, y, z);
+            Location location = new Location(world, x, y, z,yawn,pitch);
             WarpInfo warpInfo = new WarpInfo(name, location);
             warpMap.put(name, warpInfo);
         }
@@ -43,8 +45,10 @@ public class WarpManager {
         config.set("warps." + key + ".location.x", warpInfo.getLocation().getX());
         config.set("warps." + key + ".location.y", warpInfo.getLocation().getY());
         config.set("warps." + key + ".location.z", warpInfo.getLocation().getZ());
+        config.set("warps." + key + ".location.yawn", warpInfo.getLocation().getYaw());
+        config.set("warps." + key + ".location.pitch", warpInfo.getLocation().getPitch());
         config.set("warps." + key + ".location.world", warpInfo.getLocation().getWorld().getName());
-        plugin.saveConfig();
+        configM.saveWarps();
         warpMap.put(warpInfo.getName(), warpInfo);
 
     }

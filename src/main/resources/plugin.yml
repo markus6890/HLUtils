@@ -13,3 +13,7 @@ commands:
     description: "HLWarp System"
   hltp:
     aliases: ["hltphere"]
+  st:
+    description: "staff chat"
+  blockitem:
+    description: "blocks items"

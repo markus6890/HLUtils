@@ -12,11 +12,11 @@ import org.bukkit.event.block.Action;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 
-public class BreakBlockListener implements Listener{
+public class BreakBlockListener implements Listener {
 
     @EventHandler
     public void onPortalBreak(BlockBreakEvent e) {
-        if(e.getBlock().getType() == Material.PORTAL) {
+        if (e.getBlock().getType() == Material.PORTAL) {
             e.setCancelled(true);
             e.isCancelled();
         }

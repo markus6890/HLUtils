@@ -77,7 +77,8 @@ public class Rankup implements Listener {
                     p.getInventory().setLeggings(new ItemStack(Material.AIR, 1));
                     p.getInventory().setBoots(new ItemStack(Material.AIR, 1));
                     plugin.econ.withdrawPlayer(p, plugin.econ.getBalance(p));
-                    plugin.econ.depositPlayer(p, 400);
+                    plugin.econ.depositPlayer(p, 1000);
+                    giveAItems(p);
                     p.teleport(loc);
                     Bukkit.broadcastMessage("§2§lRANKUP§6 " + p.getName() + " §7Har lige §aRanket up §7til " + region + " §2Tillykke!");
                     Bukkit.dispatchCommand(Bukkit.getConsoleSender(),"lp user " + p.getName() + " parent add " + perm + " prison");
@@ -95,6 +96,13 @@ public class Rankup implements Listener {
         }
 
 
+    }
+
+    private void giveAItems(Player p) {
+        if(region.equalsIgnoreCase("§aA")) {
+           p.getInventory().addItem(new ItemStack(Material.COOKED_CHICKEN, 10));
+           p.getInventory().addItem(new ItemStack(Material.IRON_PICKAXE, 1));
+        }
     }
 
 

@@ -1,24 +1,19 @@
 package com.gmail.markushygedombrowski.itemblocking;
 
-import com.gmail.markushygedombrowski.utils.ConfigManager;
+import com.gmail.markushygedombrowski.utils.ConfigManagerUtils;
 import org.bukkit.Material;
 import org.bukkit.configuration.file.FileConfiguration;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 public class ItemManager {
-
-
     private Map<String ,ItemInfo> itemList = new HashMap<>();
-
-    private ConfigManager configM;
-
+    private ConfigManagerUtils configM;
 
 
-    public ItemManager(ConfigManager configM) {
+
+    public ItemManager(ConfigManagerUtils configM) {
         this.configM = configM;
     }
 

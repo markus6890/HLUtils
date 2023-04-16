@@ -23,7 +23,12 @@ public class WarpCommand implements CommandExecutor {
             return true;
         }
         if (args.length == 0) {
+            if(sender.hasPermission("warpadmin")){
+                sender.sendMessage("§e/hlsetwarp <name>");
+                sender.sendMessage("§e/hldeletewarp <name>");
+            }
             sender.sendMessage("§e/hlwarp <name>");
+            sender.sendMessage("§e/hlwarplist");
             return true;
         }
         if (!(sender instanceof Player)) {
@@ -35,7 +40,15 @@ public class WarpCommand implements CommandExecutor {
         WarpInfo info = warpManager.getWarpInfo(warpName);
 
         if (alias.equalsIgnoreCase("hlsetwarp")) {
-            setWarp(sender, player, warpName, info);
+            setWarp(player, warpName, info);
+            return true;
+        }
+        if (alias.equalsIgnoreCase("hldeletewarp")) {
+            deleteWarp(player, warpName, info);
+            return true;
+        }
+        if(alias.equalsIgnoreCase("hlwarplist")){
+            warpList(player);
             return true;
         }
 
@@ -49,18 +62,37 @@ public class WarpCommand implements CommandExecutor {
         return true;
     }
 
-    private void setWarp(CommandSender sender, Player player, String warpName, WarpInfo info) {
-        if (!sender.hasPermission("setwarp")) {
-            sender.sendMessage("Det har du ikke permission til!");
+    private void setWarp(Player player, String warpName, WarpInfo info) {
+        if (!player.hasPermission("warpadmin")) {
+            player.sendMessage("Det har du ikke permission til!");
             return;
         }
         if (info != null) {
-            sender.sendMessage("§cThat warp already exist!");
+            player.sendMessage("§cThat warp already exist!");
             return;
         }
         Location location = player.getLocation();
         info = new WarpInfo(warpName, location);
         warpManager.save(info);
-        sender.sendMessage("§a§lWarp created at §e" + location.toString());
+        player.sendMessage("§a§lWarp created at §e" + location.toString());
+    }
+    private void deleteWarp(Player player, String warpName, WarpInfo info) {
+        if (!player.hasPermission("warpadmin")) {
+            player.sendMessage("Det har du ikke permission til!");
+            return;
+        }
+        if (info == null) {
+            player.sendMessage("§cThat warp doesn't exist!");
+            return;
+        }
+        warpManager.delete(warpName);
+        player.sendMessage("§a§lWarp deleted");
+    }
+    private void warpList(Player player) {
+        player.sendMessage("§a§lWarp list:");
+
+        warpManager.getWarpMap().forEach((name, info) -> {
+            player.sendMessage("§e" + name);
+        });
     }
 }

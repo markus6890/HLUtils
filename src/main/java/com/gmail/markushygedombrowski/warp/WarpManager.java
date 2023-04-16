@@ -1,6 +1,6 @@
 package com.gmail.markushygedombrowski.warp;
 
-import com.gmail.markushygedombrowski.utils.ConfigManager;
+import com.gmail.markushygedombrowski.utils.ConfigManagerUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.World;
@@ -13,9 +13,9 @@ import java.util.Map;
 public class WarpManager {
     private final Map<String, WarpInfo> warpMap = new HashMap<>();
     private final JavaPlugin plugin;
-    private ConfigManager configM;
+    private ConfigManagerUtils configM;
 
-    public WarpManager(JavaPlugin plugin, ConfigManager configM) {
+    public WarpManager(JavaPlugin plugin, ConfigManagerUtils configM) {
         this.plugin = plugin;
         this.configM = configM;
     }
@@ -52,8 +52,19 @@ public class WarpManager {
         warpMap.put(warpInfo.getName(), warpInfo);
 
     }
+    public void delete(String warpName) {
+        FileConfiguration config = configM.getWarps();
+        config.set("warps." + warpName, null);
+        configM.saveWarps();
+        warpMap.remove(warpName);
+    }
+
+
     public WarpInfo getWarpInfo(String warpName) {
         return warpMap.get(warpName);
+    }
+    public Map<String, WarpInfo> getWarpMap() {
+        return warpMap;
     }
 
 }

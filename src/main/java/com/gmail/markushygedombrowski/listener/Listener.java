@@ -7,12 +7,13 @@ import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
-import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
+import org.bukkit.material.Door;
+import org.bukkit.material.Redstone;
 
-public class BreakBlockListener implements Listener {
+public class Listener implements org.bukkit.event.Listener {
 
     @EventHandler
     public void onPortalBreak(BlockBreakEvent e) {
@@ -71,6 +72,9 @@ public class BreakBlockListener implements Listener {
                             }
                         }
                     }
+
+
+
                 }
             }
         }

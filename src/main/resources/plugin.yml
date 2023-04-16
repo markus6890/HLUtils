@@ -9,7 +9,7 @@ commands:
   hlutilsreload:
     description: "reload"
   hlwarp:
-    aliases: ["hlsetwarp"]
+    aliases: ["hlsetwarp", "hlwarpdelete", "hlwarplist"]
     description: "HLWarp System"
   hltp:
     aliases: ["hltphere"]
@@ -17,3 +17,7 @@ commands:
     description: "staff chat"
   blockitem:
     description: "blocks items"
+  sendmessage:
+    description: "send message"
+  iteminfo:
+    description: "item info"

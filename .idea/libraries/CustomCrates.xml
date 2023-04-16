@@ -1,0 +1,9 @@
+<component name="libraryTable">
+  <library name="CustomCrates">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/lib/CustomCrates-4.4.0.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

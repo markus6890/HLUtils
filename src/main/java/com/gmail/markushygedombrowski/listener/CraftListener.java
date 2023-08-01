@@ -1,6 +1,7 @@
 package com.gmail.markushygedombrowski.listener;
 
 import com.gmail.markushygedombrowski.itemblocking.ItemManager;
+import com.gmail.markushygedombrowski.utils.Utils;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Event;
@@ -10,7 +11,8 @@ import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockFromToEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.inventory.CraftItemEvent;
-
+import org.bukkit.event.player.PlayerBucketEmptyEvent;
+import org.bukkit.event.player.PlayerBucketFillEvent;
 
 
 public class CraftListener implements Listener {
@@ -39,7 +41,7 @@ public class CraftListener implements Listener {
     @EventHandler
     public void onBreakBlock(BlockBreakEvent e) {
         Player p = e.getPlayer();
-        if(p.hasPermission("bygger")|| p.hasPermission("admin")) {
+        if (p.hasPermission("bygger") || p.hasPermission("admin")) {
             return;
         }
         if ((e.getBlock().getType() == Material.SMOOTH_BRICK || e.getBlock().getType() == Material.SEA_LANTERN)) {
@@ -48,16 +50,46 @@ public class CraftListener implements Listener {
             e.isCancelled();
         }
     }
+
     @EventHandler
     public void onPlaceBlock(BlockPlaceEvent e) {
         Player p = e.getPlayer();
-        if(p.hasPermission("bygger")|| p.hasPermission("admin")) {
+        if (p.hasPermission("bygger") || p.hasPermission("admin")) {
             return;
         }
         if (e.getBlock().getType() == Material.SIGN || e.getBlock().getType() == Material.SIGN_POST || e.getBlock().getType() == Material.WALL_SIGN) {
             p.sendMessage("§CDet kan du ikke pladsere!");
             e.setCancelled(true);
             e.isCancelled();
+        }
+    }
+    @EventHandler
+    public void takeWater(PlayerBucketFillEvent event) {
+        Player p = event.getPlayer();
+        if (p.hasPermission("bygger") || p.hasPermission("admin")) {
+            return;
+        }
+        if (event.getBucket() == Material.BUCKET && Utils.isLocInRegion(event.getBlockClicked().getLocation(), "aude")) {
+            p.sendMessage("§cDu kan ikke tage vand!");
+            event.getBlockClicked().getState().update();
+            event.setCancelled(true);
+            event.isCancelled();
+
+        }
+
+    }
+    @EventHandler
+    public void onPlaceWater(PlayerBucketEmptyEvent event) {
+        Player p = event.getPlayer();
+        if (p.hasPermission("bygger") || p.hasPermission("admin")) {
+            return;
+        }
+        if (event.getBucket() == Material.WATER_BUCKET && Utils.isLocInRegion(event.getBlockClicked().getLocation(), "aude")) {
+            p.sendMessage("§cDu kan ikke placere vand!");
+            event.getBlockClicked().getState().update();
+            event.setCancelled(true);
+            event.isCancelled();
+
         }
     }
 

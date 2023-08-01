@@ -8,7 +8,8 @@ public class Settings {
 
     private int arankup;
     private int brankup;
-
+    private int ontimeMoney;
+    private int ontimeTime;
 
     private int normalkitTime;
 
@@ -16,8 +17,15 @@ public class Settings {
         this.arankup = config.getInt("arankup");
         this.brankup = config.getInt("brankup");
         this.normalkitTime = config.getInt("normalkitTime");
+        this.ontimeMoney = config.getInt("ontimemoney");
+        this.ontimeTime = config.getInt("ontimeinterval");
     }
-
+    public int getOntimeMoney() {
+        return ontimeMoney;
+    }
+    public int getOntimeTime() {
+        return (ontimeTime * 60 * 60 * 20);
+    }
 
     public int getArankup() {
         return arankup;

@@ -6,14 +6,12 @@ import com.gmail.markushygedombrowski.itemblocking.ItemManager;
 
 import com.gmail.markushygedombrowski.listener.Listener;
 import com.gmail.markushygedombrowski.listener.CraftListener;
+import com.gmail.markushygedombrowski.listener.OnJoinListener;
 import com.gmail.markushygedombrowski.rankupsigns.DeRank;
 import com.gmail.markushygedombrowski.rankupsigns.Rankup;
 import com.gmail.markushygedombrowski.rankupsigns.RankupSigns;
-import com.gmail.markushygedombrowski.utils.ConfigManagerUtils;
-import com.gmail.markushygedombrowski.utils.Settings;
-import com.gmail.markushygedombrowski.utils.Utils;
+import com.gmail.markushygedombrowski.utils.*;
 
-import com.gmail.markushygedombrowski.warp.WarpCommand;
 import com.gmail.markushygedombrowski.warp.WarpManager;
 import net.milkbowl.vault.economy.Economy;
 import org.bukkit.Bukkit;
@@ -25,30 +23,33 @@ public class HLUtils extends JavaPlugin {
     public Economy econ = null;
 
     private ConfigManagerUtils configManagerUtils;
-    private WarpManager warpManager;
+
     private Settings settings;
     private ItemManager itemManager;
     private Utils utils;
+    private HLWarp hlWarp;
+    private ListHolder listHolder;
+    private PlayerOnTime playerOnTime;
 
 
     public void onEnable() {
         saveDefaultConfig();
+        hlWarp = HLWarp.getInstance();
+        WarpManager warpManager = hlWarp.getWarpManager();
 
         loadConfigManager();
+
         FileConfiguration config = getConfig();
         settings = new Settings();
         utils = new Utils();
-
+        listHolder = new ListHolder();
         settings.load(config);
 
-
-        initWarps();
+        playerOnTime = new PlayerOnTime(settings, this);
         initItems();
         initCommands();
-        Listener breakBlockListener = new Listener();
-        Bukkit.getPluginManager().registerEvents(breakBlockListener, this);
-        CraftListener craftListener = new CraftListener(itemManager);
-        Bukkit.getPluginManager().registerEvents(craftListener, this);
+        initListener(warpManager);
+
 
         Rankup rankup = new Rankup(settings, this, warpManager);
         Bukkit.getPluginManager().registerEvents(rankup, this);
@@ -57,17 +58,34 @@ public class HLUtils extends JavaPlugin {
         Bukkit.getPluginManager().registerEvents(deRank, this);
         RankupSigns rankupSigns = new RankupSigns(rankup, deRank);
         Bukkit.getPluginManager().registerEvents(rankupSigns, this);
+        EnderchestCommand enderchestCommand = new EnderchestCommand();
+        getCommand("ecd").setExecutor(enderchestCommand);
+        System.out.println("==================================");
+        System.out.println("HLUtils enabled");
+        System.out.println("==================================");
 
+        Bukkit.getServer().getScheduler().scheduleSyncRepeatingTask(this, new Runnable() {
 
-
-
-
+            @Override
+            public void run() {
+                playerOnTime.cooldown();
+            }
+        }, 1L, 1L);
         if (!setupEconomy()) {
             getLogger().severe(String.format("[%s] - Disabled due to no Vault dependency found!", getDescription().getName()));
             getServer().getPluginManager().disablePlugin(this);
             return;
         }
 
+    }
+
+    private void initListener(WarpManager warpManager) {
+        Listener breakBlockListener = new Listener();
+        Bukkit.getPluginManager().registerEvents(breakBlockListener, this);
+        CraftListener craftListener = new CraftListener(itemManager);
+        Bukkit.getPluginManager().registerEvents(craftListener, this);
+        OnJoinListener onJoinListener = new OnJoinListener(warpManager,listHolder, playerOnTime);
+        Bukkit.getPluginManager().registerEvents(onJoinListener, this);
     }
 
     private boolean setupEconomy() {
@@ -82,18 +100,10 @@ public class HLUtils extends JavaPlugin {
         return econ != null;
     }
 
-    private void initWarps() {
-        warpManager = new WarpManager(this, configManagerUtils);
-        warpManager.load();
-        WarpCommand warpCommand = new WarpCommand(warpManager, this);
-        getCommand("hlwarp").setExecutor(warpCommand);
-    }
-
     public void reload() {
         reloadConfig();
         FileConfiguration config = getConfig();
         loadConfigManager();
-        warpManager.load();
         itemManager.load();
         settings.load(config);
 
@@ -102,10 +112,9 @@ public class HLUtils extends JavaPlugin {
     public void loadConfigManager() {
         configManagerUtils = new ConfigManagerUtils();
         configManagerUtils.setup();
-        configManagerUtils.saveWarps();
         configManagerUtils.saveItems();
         configManagerUtils.reloadItems();
-        configManagerUtils.reloadWarps();
+
 
     }
 
@@ -122,8 +131,8 @@ public class HLUtils extends JavaPlugin {
         TpCommands tpCommands = new TpCommands();
         getCommand("hltp").setExecutor(tpCommands);
 
-        StaffChat staffChat = new StaffChat();
-        getCommand("st").setExecutor(staffChat);
+        ListCommand listCommand = new ListCommand(listHolder);
+        getCommand("list").setExecutor(listCommand);
 
 
     }
@@ -137,8 +146,6 @@ public class HLUtils extends JavaPlugin {
     }
 
 
-
-
     public void onDisable() {
         System.out.println("==================================");
         System.out.println("HLUtils disabled");
@@ -146,7 +153,6 @@ public class HLUtils extends JavaPlugin {
 
 
     }
-
 
 
 }

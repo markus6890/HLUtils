@@ -78,6 +78,11 @@
             <artifactId>mysql-connector-java</artifactId>
             <version>8.0.30</version>
         </dependency>
+        <dependency>
+            <groupId>com.github.markus6890</groupId>
+            <artifactId>HLWarp</artifactId>
+            <version>fa98244a11</version>
+        </dependency>
     </dependencies>
 
 </project>

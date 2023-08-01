@@ -1,16 +1,13 @@
 main: com.gmail.markushygedombrowski.HLUtils
 version: "1.0"
 name: HLUtils
-softdepend:  [Vault,WorldGuard,WorldEdit]
+softdepend:  [Vault,WorldGuard,WorldEdit,HLWarp]
 commands:
   hlgamemode:
     aliases: ["hlgm"]
     description: "gamemode"
   hlutilsreload:
     description: "reload"
-  hlwarp:
-    aliases: ["hlsetwarp", "hlwarpdelete", "hlwarplist"]
-    description: "HLWarp System"
   hltp:
     aliases: ["hltphere"]
   st:
@@ -21,3 +18,7 @@ commands:
     description: "send message"
   iteminfo:
     description: "item info"
+  ecd:
+    description: "enderchest"
+  list:
+    description: "list"

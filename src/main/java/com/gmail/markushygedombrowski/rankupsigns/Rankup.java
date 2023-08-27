@@ -71,11 +71,7 @@ public class Rankup implements Listener {
         if (inventory.getTitle().equalsIgnoreCase("Rankup: " + region)) {
             if (clickedSlot == RANKUP_INDEX) {
                 if (plugin.econ.has(p, pay)) {
-                    p.getInventory().clear();
-                    p.getInventory().setHelmet(new ItemStack(Material.AIR, 1));
-                    p.getInventory().setChestplate(new ItemStack(Material.AIR, 1));
-                    p.getInventory().setLeggings(new ItemStack(Material.AIR, 1));
-                    p.getInventory().setBoots(new ItemStack(Material.AIR, 1));
+                    clearInventory(p);
                     plugin.econ.withdrawPlayer(p, plugin.econ.getBalance(p));
                     plugin.econ.depositPlayer(p, 1000);
                     giveAItems(p);
@@ -96,6 +92,14 @@ public class Rankup implements Listener {
         }
 
 
+    }
+
+    private void clearInventory(Player p) {
+        p.getInventory().clear();
+        p.getInventory().setHelmet(new ItemStack(Material.AIR, 1));
+        p.getInventory().setChestplate(new ItemStack(Material.AIR, 1));
+        p.getInventory().setLeggings(new ItemStack(Material.AIR, 1));
+        p.getInventory().setBoots(new ItemStack(Material.AIR, 1));
     }
 
     private void giveAItems(Player p) {

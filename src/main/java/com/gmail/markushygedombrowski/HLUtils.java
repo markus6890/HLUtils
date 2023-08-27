@@ -37,6 +37,7 @@ public class HLUtils extends JavaPlugin {
         hlWarp = HLWarp.getInstance();
         WarpManager warpManager = hlWarp.getWarpManager();
 
+
         loadConfigManager();
 
         FileConfiguration config = getConfig();

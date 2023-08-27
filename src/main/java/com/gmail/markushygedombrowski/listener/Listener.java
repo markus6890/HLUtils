@@ -1,6 +1,8 @@
 package com.gmail.markushygedombrowski.listener;
 
 import com.gmail.markushygedombrowski.utils.Utils;
+import net.md_5.bungee.api.chat.HoverEvent;
+import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
@@ -10,10 +12,15 @@ import org.bukkit.event.Event;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.block.BlockBreakEvent;
+import org.bukkit.event.player.AsyncPlayerChatEvent;
+import org.bukkit.event.player.PlayerCommandPreprocessEvent;
+import org.bukkit.event.player.PlayerCommandSendEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.material.Door;
 import org.bukkit.material.Redstone;
+
+import java.awt.*;
 
 public class Listener implements org.bukkit.event.Listener {
 
@@ -90,7 +97,7 @@ public class Listener implements org.bukkit.event.Listener {
         if (player.hasPermission("bygger")) {
             return;
         }
-        if(Utils.isLocInRegion(block.getLocation(), "c-d")) {
+        if (Utils.isLocInRegion(block.getLocation(), "c-d")) {
             if (block.getType() == Material.STAINED_CLAY || block.getType() == Material.LOG) {
                 event.setCancelled(true);
                 event.isCancelled();
@@ -101,4 +108,5 @@ public class Listener implements org.bukkit.event.Listener {
 
     }
 }
+
 

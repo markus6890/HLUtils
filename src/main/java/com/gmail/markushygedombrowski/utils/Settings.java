@@ -1,6 +1,9 @@
 package com.gmail.markushygedombrowski.utils;
 
 import org.bukkit.configuration.file.FileConfiguration;
+import org.bukkit.inventory.ItemStack;
+
+import java.awt.*;
 
 
 public class Settings {
@@ -19,6 +22,8 @@ public class Settings {
         this.normalkitTime = config.getInt("normalkitTime");
         this.ontimeMoney = config.getInt("ontimemoney");
         this.ontimeTime = config.getInt("ontimeinterval");
+        RandomChanceCollection<ItemStack> rnc = new RandomChanceCollection<>();
+
     }
     public int getOntimeMoney() {
         return ontimeMoney;

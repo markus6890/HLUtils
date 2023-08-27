@@ -83,6 +83,11 @@
             <artifactId>HLWarp</artifactId>
             <version>fa98244a11</version>
         </dependency>
+        <dependency>
+            <groupId>org.jetbrains</groupId>
+            <artifactId>annotations</artifactId>
+            <version>24.0.1</version>
+        </dependency>
     </dependencies>
 
 </project>

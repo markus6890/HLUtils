@@ -4,7 +4,11 @@ package com.gmail.markushygedombrowski.utils;
 import com.gmail.markushygedombrowski.HLUtils;
 import com.sk89q.worldguard.bukkit.WorldGuardPlugin;
 import com.sk89q.worldguard.protection.ApplicableRegionSet;
+import com.sk89q.worldguard.protection.flags.DefaultFlag;
+import com.sk89q.worldguard.protection.flags.Flag;
+import com.sk89q.worldguard.protection.flags.Flags;
 import com.sk89q.worldguard.protection.flags.StateFlag;
+import com.sk89q.worldguard.protection.flags.registry.FlagRegistry;
 import com.sk89q.worldguard.protection.managers.RegionManager;
 import com.sk89q.worldguard.protection.regions.ProtectedRegion;
 import org.bukkit.*;
@@ -82,6 +86,19 @@ public class Utils {
             }
         }
         return false;
+    }
+    public static StateFlag getFlag(String flag) {
+        WorldGuardPlugin wg = getWorldGuard();
+        if (wg == null) {
+            return null;
+        }
+        FlagRegistry registry = wg.getFlagRegistry();
+        Flag<?> exiting = registry.get(flag);
+        if (exiting instanceof StateFlag) {
+            return (StateFlag) exiting;
+        } else {
+            return null;
+        }
     }
 
 

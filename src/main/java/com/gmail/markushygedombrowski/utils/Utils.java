@@ -74,7 +74,7 @@ public class Utils {
         }
         return (WorldGuardPlugin) plugin;
     }
-    public static boolean regionHasFlag(Location loc, StateFlag flag) {
+    public static boolean regionHasFlag(Location loc, StateFlag flag,StateFlag.State flagState) {
         ApplicableRegionSet set = getWGSet(loc);
         if (set == null) {
             return false;
@@ -83,7 +83,7 @@ public class Utils {
         for (ProtectedRegion r : set.getRegions()) {
             if (r.getFlag(flag) != null) {
                 StateFlag.State state = r.getFlag(flag);
-                if (state == StateFlag.State.ALLOW) {
+                if (state == flagState) {
                     return true;
                 }
             }

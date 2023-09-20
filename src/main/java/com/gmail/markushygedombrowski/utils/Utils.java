@@ -4,6 +4,7 @@ package com.gmail.markushygedombrowski.utils;
 import com.gmail.markushygedombrowski.HLUtils;
 import com.sk89q.worldguard.bukkit.WorldGuardPlugin;
 import com.sk89q.worldguard.protection.ApplicableRegionSet;
+import com.sk89q.worldguard.protection.flags.StateFlag;
 import com.sk89q.worldguard.protection.managers.RegionManager;
 import com.sk89q.worldguard.protection.regions.ProtectedRegion;
 import org.bukkit.*;
@@ -68,6 +69,19 @@ public class Utils {
             return null;
         }
         return (WorldGuardPlugin) plugin;
+    }
+    public static boolean regionHasFlag(Location loc, StateFlag flag) {
+        ApplicableRegionSet set = getWGSet(loc);
+        if (set == null) {
+            return false;
+        }
+
+        for (ProtectedRegion r : set.getRegions()) {
+            if (r.getFlag(flag) != null) {
+                return true;
+            }
+        }
+        return false;
     }
 
 

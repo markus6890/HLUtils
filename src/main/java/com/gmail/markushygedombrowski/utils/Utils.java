@@ -82,7 +82,10 @@ public class Utils {
 
         for (ProtectedRegion r : set.getRegions()) {
             if (r.getFlag(flag) != null) {
-                return true;
+                StateFlag.State state = r.getFlag(flag);
+                if (state == StateFlag.State.ALLOW) {
+                    return true;
+                }
             }
         }
         return false;

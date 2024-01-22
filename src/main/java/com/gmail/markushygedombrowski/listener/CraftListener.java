@@ -3,6 +3,7 @@ package com.gmail.markushygedombrowski.listener;
 import com.gmail.markushygedombrowski.itemblocking.ItemManager;
 import com.gmail.markushygedombrowski.utils.Utils;
 import org.bukkit.Material;
+import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Event;
 import org.bukkit.event.EventHandler;
@@ -13,6 +14,7 @@ import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.inventory.CraftItemEvent;
 import org.bukkit.event.player.PlayerBucketEmptyEvent;
 import org.bukkit.event.player.PlayerBucketFillEvent;
+import org.bukkit.inventory.ItemStack;
 
 
 public class CraftListener implements Listener {
@@ -44,6 +46,8 @@ public class CraftListener implements Listener {
         if (p.hasPermission("bygger") || p.hasPermission("admin")) {
             return;
         }
+
+
         if ((e.getBlock().getType() == Material.SMOOTH_BRICK || e.getBlock().getType() == Material.SEA_LANTERN)) {
             p.sendMessage("§cDu kan ikke smadre dette!");
             e.setCancelled(true);

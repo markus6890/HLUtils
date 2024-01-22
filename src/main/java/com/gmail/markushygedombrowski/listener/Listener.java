@@ -41,7 +41,7 @@ public class Listener implements org.bukkit.event.Listener {
         if (p.isOp()) return;
         Material block = event.getBlock().getType();
 
-        if (block == Material.CACTUS || block == Material.WHEAT || block == Material.SAND || block == Material.SEEDS) {
+        if (block == Material.CACTUS || block == Material.WHEAT || block == Material.SAND || block == Material.SEEDS || block == Material.SUGAR_CANE_BLOCK) {
             p.sendMessage("§cHOV det må du ikke!!");
             event.setCancelled(true);
             event.isCancelled();

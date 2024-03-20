@@ -34,7 +34,7 @@ public class PlayerOnTime {
                 return;
             }
             if (value > 0) {
-                playerMap.put(key,value - 1);
+                playerMap.put(key,value - 20);
             } else {
                 plugin.econ.depositPlayer(player, settings.getOntimeMoney());
                 player.sendMessage("§7Du har fået §a" + settings.getOntimeMoney() + "$ §7 for at være online i §a" + settings.getOntimeTime() + " §7minutter");

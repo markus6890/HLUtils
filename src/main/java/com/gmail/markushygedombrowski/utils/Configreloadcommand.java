@@ -21,7 +21,7 @@ public class Configreloadcommand implements CommandExecutor {
         }
         plugin.reload();
 
-        sender.sendMessage("§a§lPlugin reloadet!");
+        sender.sendMessage("§a§lPlugin HLUtils reloaded!");
 
         return true;
     }

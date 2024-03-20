@@ -1,28 +1,24 @@
 package com.gmail.markushygedombrowski.listener;
 
+import com.gmail.markushygedombrowski.cobweb.CobWeb;
 import com.gmail.markushygedombrowski.utils.Utils;
-import net.md_5.bungee.api.chat.HoverEvent;
-import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.entity.Player;
-import org.bukkit.event.Event;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.block.BlockBreakEvent;
-import org.bukkit.event.player.AsyncPlayerChatEvent;
-import org.bukkit.event.player.PlayerCommandPreprocessEvent;
-import org.bukkit.event.player.PlayerCommandSendEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.material.Door;
-import org.bukkit.material.Redstone;
-
-import java.awt.*;
 
 public class Listener implements org.bukkit.event.Listener {
+private CobWeb cobWeb;
+
+    public Listener(CobWeb cobWeb) {
+        this.cobWeb = cobWeb;
+    }
 
     @EventHandler
     public void onPortalBreak(BlockBreakEvent e) {
@@ -92,11 +88,10 @@ public class Listener implements org.bukkit.event.Listener {
     public void onBlockBreak(BlockBreakEvent event) {
         Player player = event.getPlayer();
         Block block = event.getBlock();
-
-
         if (player.hasPermission("bygger")) {
             return;
         }
+        if (cobweb(event, player, block)) return;
         if (Utils.isLocInRegion(block.getLocation(), "c-d")) {
             if (block.getType() == Material.STAINED_CLAY || block.getType() == Material.LOG) {
                 event.setCancelled(true);
@@ -106,6 +101,39 @@ public class Listener implements org.bukkit.event.Listener {
         }
 
 
+    }
+
+    private boolean cobweb(BlockBreakEvent event, Player player, Block block) {
+        if (player.hasPermission("breakcobweb")) {
+            if (block.getType() == Material.WEB) {
+                if(cobWeb.contains(block.getLocation())){
+                    player.sendMessage("§cDu har allerede smadret dette cobweb inden for de sidste 3 timer");
+                    event.setCancelled(true);
+                    event.isCancelled();
+                    return true;
+                }
+                if(player.getItemInHand().getType() != Material.DIAMOND_SWORD) {
+                    player.sendMessage("§cDu skal bruge et §b§lDiamond Sword §cfor at smadre cobweb");
+                    event.setCancelled(true);
+                    event.isCancelled();
+                    return true;
+                }
+                if (Utils.procent(cobWeb.getChance(block))) {
+                    player.getInventory().addItem(new ItemStack(Material.STRING, 1));
+                    player.sendMessage("§aDu fik 1 §f§lString");
+                    player.sendMessage("§7 og dit §csværd §7gik i stykker");
+                    player.getInventory().removeItem(player.getItemInHand());
+                } else {
+                    player.sendMessage("§cDu fik ikke noget String");
+                }
+                int time = 3 * 60 * 60 * 20;
+                cobWeb.addCobWeb(time, block.getLocation());
+                event.setCancelled(true);
+                event.isCancelled();
+                return true;
+            }
+        }
+        return false;
     }
 }
 

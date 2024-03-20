@@ -1,7 +1,7 @@
 main: com.gmail.markushygedombrowski.HLUtils
 version: "1.0"
 name: HLUtils
-softdepend:  [Vault,WorldGuard,WorldEdit,HLWarp]
+softdepend:  [Vault,WorldGuard,WorldEdit,HLWarp,Bande,PlaceholderAPI]
 commands:
   hlgamemode:
     aliases: ["hlgm"]
@@ -22,3 +22,5 @@ commands:
     description: "enderchest"
   list:
     description: "list"
+  creategui:
+    description: "create gui"

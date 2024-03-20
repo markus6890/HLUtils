@@ -40,6 +40,14 @@ public class Utils {
         }
         return false;
     }
+    public static boolean isInt(String s) {
+        try {
+            Integer.parseInt(s);
+            return true;
+        } catch (NumberFormatException e) {
+            return false;
+        }
+    }
 
     private static ApplicableRegionSet getWGSet(Location loc) {
         WorldGuardPlugin wg = getWorldGuard();
@@ -102,6 +110,20 @@ public class Utils {
         } else {
             return null;
         }
+    }
+    public static boolean isVagtOnline() {
+        for (Player p : Bukkit.getOnlinePlayers()) {
+            if (p.hasPermission("vagt")) {
+                return true;
+            }
+        }
+        return false;
+    }
+    public static boolean procent(double pro) {
+        Random r = new Random();
+        double num = r.nextInt(100);
+        return num <= pro;
+
     }
 
 

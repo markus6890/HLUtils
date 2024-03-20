@@ -1,5 +1,6 @@
 package com.gmail.markushygedombrowski;
 
+import com.gmail.markushygedombrowski.cobweb.CobWeb;
 import com.gmail.markushygedombrowski.commands.*;
 import com.gmail.markushygedombrowski.itemblocking.ItemBlockCommand;
 import com.gmail.markushygedombrowski.itemblocking.ItemManager;
@@ -7,6 +8,7 @@ import com.gmail.markushygedombrowski.itemblocking.ItemManager;
 import com.gmail.markushygedombrowski.listener.Listener;
 import com.gmail.markushygedombrowski.listener.CraftListener;
 import com.gmail.markushygedombrowski.listener.OnJoinListener;
+import com.gmail.markushygedombrowski.listener.Testlistener;
 import com.gmail.markushygedombrowski.rankupsigns.DeRank;
 import com.gmail.markushygedombrowski.rankupsigns.Rankup;
 import com.gmail.markushygedombrowski.rankupsigns.RankupSigns;
@@ -30,6 +32,7 @@ public class HLUtils extends JavaPlugin {
     private HLWarp hlWarp;
     private ListHolder listHolder;
     private PlayerOnTime playerOnTime;
+    private CobWeb cobWeb;
 
 
     public void onEnable() {
@@ -45,11 +48,15 @@ public class HLUtils extends JavaPlugin {
         utils = new Utils();
         listHolder = new ListHolder();
         settings.load(config);
-
+        cobWeb = new CobWeb();
         playerOnTime = new PlayerOnTime(settings, this);
         initItems();
         initCommands();
         initListener(warpManager);
+
+        Testlistener testlistener = new Testlistener();
+        Bukkit.getPluginManager().registerEvents(testlistener, this);
+
 
 
         Rankup rankup = new Rankup(settings, this, warpManager);
@@ -70,8 +77,9 @@ public class HLUtils extends JavaPlugin {
             @Override
             public void run() {
                 playerOnTime.cooldown();
+                cobWeb.cobwebCooldown();
             }
-        }, 1L, 1L);
+        }, 20L, 20L);
         if (!setupEconomy()) {
             getLogger().severe(String.format("[%s] - Disabled due to no Vault dependency found!", getDescription().getName()));
             getServer().getPluginManager().disablePlugin(this);
@@ -81,7 +89,7 @@ public class HLUtils extends JavaPlugin {
     }
 
     private void initListener(WarpManager warpManager) {
-        Listener breakBlockListener = new Listener();
+        Listener breakBlockListener = new Listener(cobWeb);
         Bukkit.getPluginManager().registerEvents(breakBlockListener, this);
         CraftListener craftListener = new CraftListener(itemManager);
         Bukkit.getPluginManager().registerEvents(craftListener, this);
@@ -134,6 +142,9 @@ public class HLUtils extends JavaPlugin {
 
         ListCommand listCommand = new ListCommand(listHolder);
         getCommand("list").setExecutor(listCommand);
+
+        CreateGuiCommand createGuiCommand = new CreateGuiCommand();
+        getCommand("creategui").setExecutor(createGuiCommand);
 
 
     }

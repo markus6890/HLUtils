@@ -54,9 +54,6 @@ public class HLUtils extends JavaPlugin {
         initCommands();
         initListener(warpManager);
 
-        Testlistener testlistener = new Testlistener();
-        Bukkit.getPluginManager().registerEvents(testlistener, this);
-
 
 
         Rankup rankup = new Rankup(settings, this, warpManager);

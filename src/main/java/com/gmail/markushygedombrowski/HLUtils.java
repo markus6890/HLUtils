@@ -142,6 +142,8 @@ public class HLUtils extends JavaPlugin {
 
         CreateGuiCommand createGuiCommand = new CreateGuiCommand();
         getCommand("creategui").setExecutor(createGuiCommand);
+        WaterRunCommand waterRunCommand = new WaterRunCommand();
+        getCommand("waterrun").setExecutor(waterRunCommand);
 
 
     }

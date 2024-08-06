@@ -46,6 +46,7 @@ private CobWeb cobWeb;
 
     }
 
+
     @EventHandler
     public void pvpMinen(BlockBreakEvent event) {
         Player p = event.getPlayer();
@@ -64,6 +65,9 @@ private CobWeb cobWeb;
         if (event.getAction() == Action.RIGHT_CLICK_BLOCK) {
             if (event.getClickedBlock().getType() == Material.IRON_DOOR_BLOCK) {
                 Block block = event.getClickedBlock();
+                if(Utils.isLocInRegion(block.getLocation(), "jaildoor-a") && !event.getPlayer().hasPermission("vagt")) {
+                    return;
+                }
                 if (Utils.getWorldGuard().canBuild(event.getPlayer(), block.getLocation()) || event.getPlayer().hasPermission("irondoor")) {
                     if (block.getType() == Material.IRON_DOOR_BLOCK) {
                         if (block.getData() >= 8) {

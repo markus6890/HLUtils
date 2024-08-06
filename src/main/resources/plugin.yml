@@ -24,3 +24,5 @@ commands:
     description: "list"
   creategui:
     description: "create gui"
+  waterrun:
+    description: "water run"

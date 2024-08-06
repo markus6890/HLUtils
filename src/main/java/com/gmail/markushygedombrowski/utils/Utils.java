@@ -28,7 +28,14 @@ import java.util.*;
 import static org.bukkit.Bukkit.getServer;
 
 public class Utils {
+    private static boolean waterRunning = false;
 
+    public static boolean isWaterRunning() {
+        return waterRunning;
+    }
+    public static void changeWaterRunning() {
+        Utils.waterRunning = !Utils.waterRunning;
+    }
     public static boolean isLocInRegion(Location loc, String regionName) {
         if (regionName == null) {
             return true;

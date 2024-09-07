@@ -33,10 +33,12 @@ public class HLUtils extends JavaPlugin {
     private ListHolder listHolder;
     private PlayerOnTime playerOnTime;
     private CobWeb cobWeb;
+    private static HLUtils instance;
 
 
 
     public void onEnable() {
+        instance = this;
         saveDefaultConfig();
         hlWarp = HLWarp.getInstance();
         WarpManager warpManager = hlWarp.getWarpManager();
@@ -158,6 +160,9 @@ public class HLUtils extends JavaPlugin {
     }
     public ListHolder getListHolder() {
         return listHolder;
+    }
+    public static HLUtils getInstance() {
+        return instance;
     }
 
     public void onDisable() {

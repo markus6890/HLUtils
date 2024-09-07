@@ -35,6 +35,7 @@ public class HLUtils extends JavaPlugin {
     private CobWeb cobWeb;
 
 
+
     public void onEnable() {
         saveDefaultConfig();
         hlWarp = HLWarp.getInstance();
@@ -155,7 +156,9 @@ public class HLUtils extends JavaPlugin {
         ItemBlockCommand itemBlockCommand = new ItemBlockCommand(itemManager);
         getCommand("blockitem").setExecutor(itemBlockCommand);
     }
-
+    public ListHolder getListHolder() {
+        return listHolder;
+    }
 
     public void onDisable() {
         System.out.println("==================================");

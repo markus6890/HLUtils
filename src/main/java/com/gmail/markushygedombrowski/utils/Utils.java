@@ -132,10 +132,10 @@ public class Utils {
     }
     public static boolean procent(double pro) {
         Random r = new Random();
-        double num = r.nextInt(100);
+        double num = r.nextDouble() * 100;  // Returns a double between 0.0 and 100.0
         return num <= pro;
-
     }
+
 
     public static int randomInt(int min, int max) {
         Random r = new Random();

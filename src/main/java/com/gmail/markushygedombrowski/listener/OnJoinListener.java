@@ -50,10 +50,10 @@ public class OnJoinListener implements Listener {
     private void addToList(Player p) {
         listHolder.addToTotal(p.getName());
         if (p.hasPermission("vagt")) {
-            listHolder.add(Category.valueOf(Utils.getRegion(p.getLocation())), Role.VAGT, p.getName());
+            listHolder.add(Category.fromString(Utils.getRegion(p.getLocation()).toUpperCase()), Role.VAGT, p.getName());
             return;
         }
-        listHolder.add(Category.valueOf(Utils.getRegion(p.getLocation())), Role.FANGE, p.getName());
+        listHolder.add(Category.fromString(Utils.getRegion(p.getLocation()).toUpperCase()), Role.FANGE, p.getName());
 
     }
 

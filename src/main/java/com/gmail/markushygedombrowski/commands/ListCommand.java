@@ -29,9 +29,9 @@ public class ListCommand implements CommandExecutor {
 
     public List<String> getMessages() {
         List<String> messages = new ArrayList<>();
-        messages.add("§cC: §6Fanger§7: " + listHolder.getList(Category.fromString("C"), Role.FANGE).size() + " §cVagter§7: " + listHolder.getList(Category.fromString("C"), Role.VAGT));
-        messages.add("§bB: §6Fanger§7: " + listHolder.getList(Category.fromString("B"), Role.FANGE).size() + " §bVagter§7: " + listHolder.getList(Category.fromString("B"), Role.VAGT));
-        messages.add("§aA: §6Fanger§7: " + listHolder.getList(Category.fromString("A"), Role.FANGE).size() + " §aVagter§7: " + listHolder.getList(Category.fromString("A"), Role.VAGT));
+        messages.add("§cC: §6Fanger§7: " + listHolder.getList(Category.fromString("C"), Role.FANGE).size() + " §cVagter§7: " + listHolder.getList(Category.fromString("C"), Role.VAGT).size());
+        messages.add("§bB: §6Fanger§7: " + listHolder.getList(Category.fromString("B"), Role.FANGE).size() + " §bVagter§7: " + listHolder.getList(Category.fromString("B"), Role.VAGT).size());
+        messages.add("§aA: §6Fanger§7: " + listHolder.getList(Category.fromString("A"), Role.FANGE).size() + " §aVagter§7: " + listHolder.getList(Category.fromString("A"), Role.VAGT).size());
         messages.add("§6§lTotal§7: " + listHolder.getTotalList().size());
         return messages;
     }

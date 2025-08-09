@@ -151,7 +151,32 @@ public class ListHolder {
         removeCFange(name);
         removeCVagt(name);
     }
+    public boolean containsFange(String name) {
+        return fangeList.contains(name);
 
+    }
+    public boolean containsVagt(String name) {
+        return vagtList.contains(name);
 
+    }
+    public boolean containsTotal(String name) {
+        return totalList.contains(name);
+
+    }
+    public boolean containsAFange(String name) {
+        return aFange.contains(name);
+    }
+    public boolean containsAVagt(String name) {
+        return aVagt.contains(name);
+    }
+    public boolean containsBFange(String name) {
+        return bFange.contains(name);
+    }
+    public boolean containsBVagt(String name) {
+        return bVagt.contains(name);
+    }
+    public boolean containsCFange(String name) {
+        return cFange.contains(name);
+    }
 
 }

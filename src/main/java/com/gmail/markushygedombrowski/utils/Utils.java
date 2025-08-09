@@ -172,8 +172,21 @@ public class Utils {
         } catch (Exception ex) {
             ex.printStackTrace();
         }
-    }
 
+    }
+    public static String getRegion(Location location) {
+
+        if (Utils.isLocInRegion(location, "a")) {
+            return "a";
+        } else if (Utils.isLocInRegion(location, "b")) {
+            return "b";
+        } else if (Utils.isLocInRegion(location, "a+")) {
+            return "a+";
+        }
+        else {
+            return "c";
+        }
+    }
 
 
 

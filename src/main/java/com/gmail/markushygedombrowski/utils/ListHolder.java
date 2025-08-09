@@ -2,181 +2,67 @@ package com.gmail.markushygedombrowski.utils;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.EnumMap;
 
 public class ListHolder {
+    private final Map<Category, Map<Role, List<String>>> categoryMap;
+    private final List<String> totalList;
 
-    private List<String> fangeList = new ArrayList<>();
-    private List<String> vagtList = new ArrayList<>();
-    private List<String> totalList = new ArrayList<>();
-    private List<String> aFange = new ArrayList<>();
-    private List<String> aVagt = new ArrayList<>();
-    private List<String> bFange = new ArrayList<>();
-    private List<String> bVagt = new ArrayList<>();
-    private List<String> cFange = new ArrayList<>();
-    private List<String> cVagt = new ArrayList<>();
-    public List<String> getcVagt() {
-        return cVagt;
+    public ListHolder() {
+        this.categoryMap = new EnumMap<>(Category.class);
+        for (Category category : Category.values()) {
+            Map<Role, List<String>> roleMap = new EnumMap<>(Role.class);
+            for (Role role : Role.values()) {
+                roleMap.put(role, new ArrayList<>());
+            }
+            categoryMap.put(category, roleMap);
+        }
+        this.totalList = new ArrayList<>();
     }
 
-    public void setcVagt(List<String> cVagt) {
-        this.cVagt = cVagt;
+    public void add(Category category, Role role, String name) {
+        categoryMap.get(category).get(role).add(name);
     }
 
-    public List<String> getcFange() {
-        return cFange;
+    public void remove(Category category, Role role, String name) {
+        categoryMap.get(category).get(role).remove(name);
     }
 
-    public void setcFange(List<String> cFange) {
-        this.cFange = cFange;
+    public boolean contains(Category category, Role role, String name) {
+        return categoryMap.get(category).get(role).contains(name);
     }
 
-    public List<String> getbVagt() {
-        return bVagt;
+    public List<String> getList(Category category, Role role) {
+        return new ArrayList<>(categoryMap.get(category).get(role));
     }
 
-    public void setbVagt(List<String> bVagt) {
-        this.bVagt = bVagt;
+    public void clear(Category category, Role role) {
+        categoryMap.get(category).get(role).clear();
     }
 
-    public List<String> getbFange() {
-        return bFange;
+    public void addToTotal(String name) {
+        totalList.add(name);
     }
 
-    public void setbFange(List<String> bFange) {
-        this.bFange = bFange;
+    public void removeFromTotal(String name) {
+        totalList.remove(name);
     }
 
-    public List<String> getaVagt() {
-        return aVagt;
-    }
-
-    public void setaVagt(List<String> aVagt) {
-        this.aVagt = aVagt;
-    }
-
-    public List<String> getaFange() {
-        return aFange;
-    }
-
-    public void setaFange(List<String> aFange) {
-        this.aFange = aFange;
-    }
-
-    public List<String> getFangeList() {
-        return fangeList;
-    }
-
-    public List<String> getVagtList() {
-        return vagtList;
+    public boolean containsInTotal(String name) {
+        return totalList.contains(name);
     }
 
     public List<String> getTotalList() {
-        return totalList;
-    }
-    public void removeFange(String name) {
-        fangeList.remove(name);
-    }
-    public void removeVagt(String name) {
-        vagtList.remove(name);
-    }
-    public void removeTotal(String name) {
-        totalList.remove(name);
-    }
-    public void removeAFange(String name) {
-        aFange.remove(name);
-    }
-    public void removeAVagt(String name) {
-        aVagt.remove(name);
-    }
-    public void removeBFange(String name) {
-        bFange.remove(name);
-    }
-    public void removeBVagt(String name) {
-        bVagt.remove(name);
-    }
-    public void removeCFange(String name) {
-        cFange.remove(name);
-    }
-    public void removeCVagt(String name) {
-        cVagt.remove(name);
-    }
-    public void clearFangeList() {
-        fangeList.clear();
-    }
-    public void clearVagtList() {
-        vagtList.clear();
-    }
-    public void clearTotalList() {
-        totalList.clear();
-    }
-    public void clearAFange() {
-        aFange.clear();
-    }
-    public void addFange(String name) {
-        fangeList.add(name);
-    }
-    public void addVagt(String name) {
-        vagtList.add(name);
-    }
-    public void addTotal(String name) {
-        totalList.add(name);
-    }
-    public void addAFange(String name) {
-        aFange.add(name);
-    }
-    public void addAVagt(String name) {
-        aVagt.add(name);
-    }
-    public void addBFange(String name) {
-        bFange.add(name);
-    }
-    public void addBVagt(String name) {
-        bVagt.add(name);
-    }
-    public void addCFange(String name) {
-        cFange.add(name);
-    }
-    public void addCVagt(String name) {
-        cVagt.add(name);
+        return new ArrayList<>(totalList);
     }
 
-    public void removeFromALL(String name) {
-        removeFange(name);
-        removeVagt(name);
-        removeTotal(name);
-        removeAFange(name);
-        removeAVagt(name);
-        removeBFange(name);
-        removeBVagt(name);
-        removeCFange(name);
-        removeCVagt(name);
+    public void removeFromAll(String name) {
+        for (Category category : Category.values()) {
+            for (Role role : Role.values()) {
+                remove(category, role, name);
+            }
+        }
+        removeFromTotal(name);
     }
-    public boolean containsFange(String name) {
-        return fangeList.contains(name);
-
-    }
-    public boolean containsVagt(String name) {
-        return vagtList.contains(name);
-
-    }
-    public boolean containsTotal(String name) {
-        return totalList.contains(name);
-
-    }
-    public boolean containsAFange(String name) {
-        return aFange.contains(name);
-    }
-    public boolean containsAVagt(String name) {
-        return aVagt.contains(name);
-    }
-    public boolean containsBFange(String name) {
-        return bFange.contains(name);
-    }
-    public boolean containsBVagt(String name) {
-        return bVagt.contains(name);
-    }
-    public boolean containsCFange(String name) {
-        return cFange.contains(name);
-    }
-
 }

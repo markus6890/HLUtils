@@ -2,6 +2,7 @@ package com.gmail.markushygedombrowski.listener;
 
 import com.gmail.markushygedombrowski.utils.ListHolder;
 import com.gmail.markushygedombrowski.utils.PlayerOnTime;
+import com.gmail.markushygedombrowski.utils.Utils;
 import com.gmail.markushygedombrowski.warp.WarpManager;
 import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
@@ -49,23 +50,30 @@ public class OnJoinListener implements Listener {
     }
 
     private void addToList(Player p) {
-        if(p.isFlying()) {
-            System.out.println("Player is flying");
-            return;
-        }
         listHolder.addTotal(p.getName());
-        if (p.hasPermission("Vagt")) {
+        if (p.hasPermission("vagt")) {
+            if(Utils.isLocInRegion(p.getLocation(), "A")) {
+                listHolder.addAVagt(p.getName());
+            } else if(Utils.isLocInRegion(p.getLocation(), "B")) {
+                listHolder.addBVagt(p.getName());
+            } else if(Utils.isLocInRegion(p.getLocation(), "C")) {
+                listHolder.addCVagt(p.getName());
+            }
             listHolder.addVagt(p.getName());
             return;
         }
-
+        if(Utils.isLocInRegion(p.getLocation(), "A")) {
+            listHolder.addAFange(p.getName());
+        } else if(Utils.isLocInRegion(p.getLocation(), "B")) {
+            listHolder.addBFange(p.getName());
+        } else if(Utils.isLocInRegion(p.getLocation(), "C")) {
+            listHolder.addCFange(p.getName());
+        }
         listHolder.addFange(p.getName());
     }
 
     private void removeFromList(Player p) {
-        listHolder.removeTotal(p.getName());
-        listHolder.removeVagt(p.getName());
-        listHolder.removeFange(p.getName());
+        listHolder.removeFromALL(p.getName());
     }
 
     @EventHandler
@@ -83,6 +91,7 @@ public class OnJoinListener implements Listener {
            addToList(p);
            return;
        }
+
 
     }
 

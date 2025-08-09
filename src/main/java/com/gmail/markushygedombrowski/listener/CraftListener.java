@@ -62,6 +62,13 @@ public class CraftListener implements Listener {
         if (p.hasPermission("bygger") || p.hasPermission("admin")) {
             return;
         }
+        ItemStack item = e.getItemInHand();
+        if (item != null && item.getType() == Material.SKULL_ITEM && item.hasItemMeta() && item.getItemMeta().hasEnchants()) {
+            p.sendMessage("§cDu må ikke placere dette head");
+            e.setCancelled(true);
+            e.isCancelled();
+            return;
+        }
         if (e.getBlock().getType() == Material.SIGN || e.getBlock().getType() == Material.SIGN_POST || e.getBlock().getType() == Material.WALL_SIGN) {
             p.sendMessage("§CDet kan du ikke pladsere!");
             e.setCancelled(true);

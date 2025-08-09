@@ -36,6 +36,14 @@ public class Utils {
     public static void changeWaterRunning() {
         Utils.waterRunning = !Utils.waterRunning;
     }
+    public static boolean isInt(String s) {
+        try {
+            Integer.parseInt(s);
+            return true;
+        } catch (NumberFormatException e) {
+            return false;
+        }
+    }
     public static boolean isLocInRegion(Location loc, String regionName) {
         if (regionName == null) {
             return true;
@@ -50,14 +58,6 @@ public class Utils {
             }
         }
         return false;
-    }
-    public static boolean isInt(String s) {
-        try {
-            Integer.parseInt(s);
-            return true;
-        } catch (NumberFormatException e) {
-            return false;
-        }
     }
 
     private static ApplicableRegionSet getWGSet(Location loc) {

@@ -12,11 +12,13 @@ import com.sk89q.worldguard.protection.flags.registry.FlagRegistry;
 import com.sk89q.worldguard.protection.managers.RegionManager;
 import com.sk89q.worldguard.protection.regions.ProtectedRegion;
 import net.md_5.bungee.api.ChatMessageType;
+import net.md_5.bungee.api.chat.ComponentBuilder;
 import org.bukkit.*;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.Plugin;
+import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.util.BlockIterator;
 
 import java.awt.*;
@@ -33,9 +35,11 @@ public class Utils {
     public static boolean isWaterRunning() {
         return waterRunning;
     }
+
     public static void changeWaterRunning() {
         Utils.waterRunning = !Utils.waterRunning;
     }
+
     public static boolean isInt(String s) {
         try {
             Integer.parseInt(s);
@@ -44,6 +48,7 @@ public class Utils {
             return false;
         }
     }
+
     public static boolean isLocInRegion(Location loc, String regionName) {
         if (regionName == null) {
             return true;
@@ -71,6 +76,7 @@ public class Utils {
         }
         return rm.getApplicableRegions(com.sk89q.worldguard.bukkit.BukkitUtil.toVector(loc));
     }
+
     public static Block getTargetBlock(Player player, int range) {
         BlockIterator iter = new BlockIterator(player, range);
         Block lastBlock = iter.next();
@@ -93,7 +99,8 @@ public class Utils {
         }
         return (WorldGuardPlugin) plugin;
     }
-    public static boolean regionHasFlag(Location loc, StateFlag flag,StateFlag.State flagState) {
+
+    public static boolean regionHasFlag(Location loc, StateFlag flag, StateFlag.State flagState) {
         ApplicableRegionSet set = getWGSet(loc);
         if (set == null) {
             return false;
@@ -109,6 +116,7 @@ public class Utils {
         }
         return false;
     }
+
     public static StateFlag getFlag(String flag) {
         WorldGuardPlugin wg = getWorldGuard();
         if (wg == null) {
@@ -122,6 +130,7 @@ public class Utils {
             return null;
         }
     }
+
     public static boolean isVagtOnline() {
         for (Player p : Bukkit.getOnlinePlayers()) {
             if (p.hasPermission("vagt")) {
@@ -130,6 +139,7 @@ public class Utils {
         }
         return false;
     }
+
     public static boolean procent(double pro) {
         Random r = new Random();
         double num = r.nextDouble() * 100;  // Returns a double between 0.0 and 100.0
@@ -141,6 +151,7 @@ public class Utils {
         Random r = new Random();
         return r.nextInt((max - min) + 1) + min;
     }
+
     public static void sendActionbar(Player player, String message) {
         if (player == null || message == null) return;
         String nmsVersion = Bukkit.getServer().getClass().getPackage().getName();
@@ -174,6 +185,7 @@ public class Utils {
         }
 
     }
+
     public static String getRegion(Location location) {
 
         if (Utils.isLocInRegion(location, "a")) {
@@ -182,16 +194,29 @@ public class Utils {
             return "b";
         } else if (Utils.isLocInRegion(location, "a+")) {
             return "a+";
-        }
-        else {
+        } else {
             return "c";
         }
     }
 
+    public static void sendCooldownBar(Player player, int seconds, String frontMessage, String backMessage, String frontBarColor, String backBarColor) {
+        String[] finalMessage = new String[1];
+        String squares = "⬛⬛⬛⬛⬛⬛⬛⬛⬛⬛";
+        int[] c = {0};
+        Bukkit.getScheduler().runTaskTimer(HLUtils.getInstance(), () -> {
+            if (c[0] < seconds) {
+                finalMessage[0] = frontMessage + frontBarColor + squares.substring(0, c[0]) + backBarColor + squares.substring(c[0]) + backMessage;
+                sendActionbar(player, finalMessage[0]);
+                c[0]++;
+            } else {
+                finalMessage[0] = frontMessage + backBarColor + squares + backMessage;
+                sendActionbar(player, finalMessage[0]);
+                c[0] = 0;
+            }
+        }, 0, seconds * 20L);
 
 
-
-
+    }
 
 
 }

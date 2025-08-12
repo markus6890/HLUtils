@@ -3,8 +3,6 @@ package com.gmail.markushygedombrowski.cobweb;
 import com.gmail.markushygedombrowski.utils.Utils;
 import org.bukkit.Location;
 import org.bukkit.block.Block;
-
-import javax.rmi.CORBA.Util;
 import java.util.HashMap;
 
 public class CobWeb {

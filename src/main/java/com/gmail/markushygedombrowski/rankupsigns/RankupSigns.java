@@ -24,8 +24,7 @@ public class RankupSigns implements Listener {
     public void onPlayerClickSign(PlayerInteractEvent event) {
         Player p = event.getPlayer();
         if (event.getAction() == Action.RIGHT_CLICK_BLOCK) {
-            if (event.getClickedBlock().getType() == Material.SIGN || event.getClickedBlock().getType() == Material.SIGN_POST || event.getClickedBlock().getType() == Material.WALL_SIGN) {
-                Sign sign = (Sign) event.getClickedBlock().getState();
+            if (event.getClickedBlock() instanceof Sign sign) {
 
                 if (sign.getLine(0).equalsIgnoreCase("§8===============") && sign.getLine(1).equalsIgnoreCase("§aRankup") && sign.getLine(2).equalsIgnoreCase("§cKlik her") && sign.getLine(3).equalsIgnoreCase("§8===============")) {
                     if(!p.hasPermission("vagt") || p.isOp()) {

@@ -6,6 +6,7 @@ import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
+import org.bukkit.block.data.type.Door;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.block.Action;
@@ -22,7 +23,7 @@ private CobWeb cobWeb;
 
     @EventHandler
     public void onPortalBreak(BlockBreakEvent e) {
-        if (e.getBlock().getType() == Material.PORTAL) {
+        if (e.getBlock().getType() == Material.NETHER_PORTAL) {
             e.setCancelled(true);
             e.isCancelled();
         }
@@ -37,7 +38,7 @@ private CobWeb cobWeb;
         if (p.isOp()) return;
         Material block = event.getBlock().getType();
 
-        if (block == Material.CACTUS || block == Material.WHEAT || block == Material.SAND || block == Material.SEEDS || block == Material.SUGAR_CANE_BLOCK) {
+        if (block == Material.CACTUS || block == Material.WHEAT || block == Material.SAND || block == Material.WHEAT_SEEDS || block == Material.SUGAR_CANE) {
             p.sendMessage("§cHOV det må du ikke!!");
             event.setCancelled(true);
             event.isCancelled();
@@ -63,22 +64,25 @@ private CobWeb cobWeb;
     @EventHandler
     public void ironDoor(PlayerInteractEvent event) {
         if (event.getAction() == Action.RIGHT_CLICK_BLOCK) {
-            if (event.getClickedBlock().getType() == Material.IRON_DOOR_BLOCK) {
+            if (event.getClickedBlock().getType() == Material.IRON_DOOR) {
                 Block block = event.getClickedBlock();
                 if(Utils.isLocInRegion(block.getLocation(), "jaildoor-a") && !event.getPlayer().hasPermission("vagt")) {
                     return;
                 }
                 if (Utils.getWorldGuard().canBuild(event.getPlayer(), block.getLocation()) || event.getPlayer().hasPermission("irondoor")) {
-                    if (block.getType() == Material.IRON_DOOR_BLOCK) {
+                    if (block.getType() == Material.IRON_DOOR) {
                         if (block.getData() >= 8) {
                             block = block.getRelative(BlockFace.DOWN);
                         }
-                        if (block.getType() == Material.IRON_DOOR_BLOCK) {
-                            if (block.getData() < 4) {
-                                block.setData((byte) (block.getData() + 4));
-                            } else {
-                                block.setData((byte) (block.getData() - 4));
+                        if (block.getType() == Material.IRON_DOOR) {
+                            Door door = (Door) block.getBlockData();
+                            if(door.isOpen()){
+                                door.setOpen(false);
+                                block.setBlockData(door);
+                                return;
                             }
+                            door.setOpen(true);
+                            block.setBlockData(door);
                         }
                     }
 
@@ -97,7 +101,7 @@ private CobWeb cobWeb;
         }
         if (cobweb(event, player, block)) return;
         if (Utils.isLocInRegion(block.getLocation(), "c-d")) {
-            if (block.getType() == Material.STAINED_CLAY || block.getType() == Material.LOG) {
+            if (block.getType() == Material.CLAY) {
                 event.setCancelled(true);
                 event.isCancelled();
 
@@ -109,7 +113,7 @@ private CobWeb cobWeb;
 
     private boolean cobweb(BlockBreakEvent event, Player player, Block block) {
         if (player.hasPermission("breakcobweb")) {
-            if (block.getType() == Material.WEB) {
+            if (block.getType() == Material.COBWEB) {
                 if(cobWeb.contains(block.getLocation())){
                     player.sendMessage("§cDu har allerede smadret dette cobweb inden for de sidste 3 timer");
                     event.setCancelled(true);

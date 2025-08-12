@@ -33,7 +33,6 @@ public class ItemInfoCommand implements CommandExecutor {
         }
 
         p.sendMessage("§aItem: §7" + item.getType().name());
-        p.sendMessage("§aItem ID: §7" + item.getTypeId());
         p.sendMessage("§aItem Data: §7" + item.getData());
         p.sendMessage("§aItem Durability: §7" + item.getDurability());
         p.sendMessage("§aItem Amount: §7" + item.getAmount());

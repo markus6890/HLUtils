@@ -8,7 +8,6 @@ import com.gmail.markushygedombrowski.itemblocking.ItemManager;
 import com.gmail.markushygedombrowski.listener.Listener;
 import com.gmail.markushygedombrowski.listener.CraftListener;
 import com.gmail.markushygedombrowski.listener.OnJoinListener;
-import com.gmail.markushygedombrowski.listener.Testlistener;
 import com.gmail.markushygedombrowski.rankupsigns.DeRank;
 import com.gmail.markushygedombrowski.rankupsigns.Rankup;
 import com.gmail.markushygedombrowski.rankupsigns.RankupSigns;
@@ -16,10 +15,11 @@ import com.gmail.markushygedombrowski.utils.*;
 
 import com.gmail.markushygedombrowski.warp.WarpManager;
 import net.milkbowl.vault.economy.Economy;
-import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
+
+import static org.bukkit.Bukkit.getPluginManager;
 
 public class HLUtils extends JavaPlugin {
     public Economy econ = null;
@@ -60,19 +60,19 @@ public class HLUtils extends JavaPlugin {
 
 
         Rankup rankup = new Rankup(settings, this, warpManager);
-        Bukkit.getPluginManager().registerEvents(rankup, this);
+        getPluginManager().registerEvents(rankup, this);
 
         DeRank deRank = new DeRank(this, warpManager);
-        Bukkit.getPluginManager().registerEvents(deRank, this);
+        getPluginManager().registerEvents(deRank, this);
         RankupSigns rankupSigns = new RankupSigns(rankup, deRank);
-        Bukkit.getPluginManager().registerEvents(rankupSigns, this);
+        getPluginManager().registerEvents(rankupSigns, this);
         EnderchestCommand enderchestCommand = new EnderchestCommand();
         getCommand("ecd").setExecutor(enderchestCommand);
         System.out.println("==================================");
         System.out.println("HLUtils enabled");
         System.out.println("==================================");
 
-        Bukkit.getServer().getScheduler().scheduleSyncRepeatingTask(this, new Runnable() {
+        getServer().getScheduler().scheduleSyncRepeatingTask(this, new Runnable() {
 
             @Override
             public void run() {
@@ -90,11 +90,11 @@ public class HLUtils extends JavaPlugin {
 
     private void initListener(WarpManager warpManager) {
         Listener breakBlockListener = new Listener(cobWeb);
-        Bukkit.getPluginManager().registerEvents(breakBlockListener, this);
+        getPluginManager().registerEvents(breakBlockListener, this);
         CraftListener craftListener = new CraftListener(itemManager);
-        Bukkit.getPluginManager().registerEvents(craftListener, this);
+        getPluginManager().registerEvents(craftListener, this);
         OnJoinListener onJoinListener = new OnJoinListener(warpManager,listHolder, playerOnTime);
-        Bukkit.getPluginManager().registerEvents(onJoinListener, this);
+        getPluginManager().registerEvents(onJoinListener, this);
     }
 
     private boolean setupEconomy() {
@@ -147,6 +147,7 @@ public class HLUtils extends JavaPlugin {
         getCommand("creategui").setExecutor(createGuiCommand);
         WaterRunCommand waterRunCommand = new WaterRunCommand();
         getCommand("waterrun").setExecutor(waterRunCommand);
+
 
 
     }

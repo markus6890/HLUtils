@@ -12,6 +12,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.Inventory;
+import org.bukkit.inventory.InventoryView;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
@@ -60,7 +61,7 @@ public class Rankup implements Listener {
     @EventHandler
     public void onInventoryClick(InventoryClickEvent event) {
         Player p = (Player) event.getWhoClicked();
-        Inventory inventory = event.getClickedInventory();
+        InventoryView view = event.getView();
         ItemStack clickeditem = event.getCurrentItem();
         int clickedSlot = event.getRawSlot();
 
@@ -68,7 +69,7 @@ public class Rankup implements Listener {
             return;
         }
 
-        if (inventory.getTitle().equalsIgnoreCase("Rankup: " + region)) {
+        if (view.getTitle().equalsIgnoreCase("Rankup: " + region)) {
             if (clickedSlot == RANKUP_INDEX) {
                 if (plugin.econ.has(p, pay)) {
                     clearInventory(p);

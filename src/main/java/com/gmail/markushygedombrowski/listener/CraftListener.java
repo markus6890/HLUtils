@@ -4,6 +4,7 @@ import com.gmail.markushygedombrowski.itemblocking.ItemManager;
 import com.gmail.markushygedombrowski.utils.Utils;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
+import org.bukkit.block.Sign;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Event;
 import org.bukkit.event.EventHandler;
@@ -49,7 +50,7 @@ public class CraftListener implements Listener {
         }
 
 
-        if ((e.getBlock().getType() == Material.SMOOTH_BRICK || e.getBlock().getType() == Material.SEA_LANTERN)) {
+        if ((e.getBlock().getType() == Material.STONE_BRICKS|| e.getBlock().getType() == Material.SEA_LANTERN)) {
             p.sendMessage("§cDu kan ikke smadre dette!");
             e.setCancelled(true);
             e.isCancelled();
@@ -63,17 +64,18 @@ public class CraftListener implements Listener {
             return;
         }
         ItemStack item = e.getItemInHand();
-        if (item != null && item.getType() == Material.SKULL_ITEM && item.hasItemMeta() && item.getItemMeta().hasEnchants()) {
+        if (item.getType() == Material.PLAYER_HEAD && item.hasItemMeta() && item.getItemMeta().hasEnchants()) {
             p.sendMessage("§cDu må ikke placere dette head");
             e.setCancelled(true);
             e.isCancelled();
             return;
         }
-        if (e.getBlock().getType() == Material.SIGN || e.getBlock().getType() == Material.SIGN_POST || e.getBlock().getType() == Material.WALL_SIGN) {
+        if (e.getBlock() instanceof Sign) {
             p.sendMessage("§CDet kan du ikke pladsere!");
             e.setCancelled(true);
             e.isCancelled();
         }
+
     }
     @EventHandler
     public void takeWater(PlayerBucketFillEvent event) {

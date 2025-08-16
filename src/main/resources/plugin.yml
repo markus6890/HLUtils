@@ -1,5 +1,6 @@
 main: com.gmail.markushygedombrowski.HLUtils
 version: "1.0"
+api-version: "1.21"
 name: HLUtils
 softdepend:  [Vault,WorldGuard,WorldEdit,HLWarp,Bande,PlaceholderAPI]
 commands:

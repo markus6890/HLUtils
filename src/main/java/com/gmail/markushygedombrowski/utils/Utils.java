@@ -2,15 +2,18 @@ package com.gmail.markushygedombrowski.utils;
 
 
 import com.gmail.markushygedombrowski.HLUtils;
+import com.sk89q.worldedit.bukkit.BukkitAdapter;
+import com.sk89q.worldedit.world.World;
+import com.sk89q.worldguard.WorldGuard;
 import com.sk89q.worldguard.bukkit.WorldGuardPlugin;
 import com.sk89q.worldguard.protection.ApplicableRegionSet;
-import com.sk89q.worldguard.protection.flags.DefaultFlag;
 import com.sk89q.worldguard.protection.flags.Flag;
 import com.sk89q.worldguard.protection.flags.Flags;
 import com.sk89q.worldguard.protection.flags.StateFlag;
 import com.sk89q.worldguard.protection.flags.registry.FlagRegistry;
 import com.sk89q.worldguard.protection.managers.RegionManager;
 import com.sk89q.worldguard.protection.regions.ProtectedRegion;
+import com.sk89q.worldguard.protection.regions.RegionContainer;
 import net.md_5.bungee.api.ChatMessageType;
 import net.md_5.bungee.api.chat.ComponentBuilder;
 import org.bukkit.*;
@@ -66,15 +69,16 @@ public class Utils {
     }
 
     private static ApplicableRegionSet getWGSet(Location loc) {
-        WorldGuardPlugin wg = getWorldGuard();
-        if (wg == null) {
+        RegionContainer rc = WorldGuard.getInstance().getPlatform().getRegionContainer();
+        if (rc == null) {
             return null;
         }
-        RegionManager rm = wg.getRegionManager(loc.getWorld());
+        World word = BukkitAdapter.adapt(Objects.requireNonNull(loc.getWorld()));
+        RegionManager rm = rc.get(word);
         if (rm == null) {
             return null;
         }
-        return rm.getApplicableRegions(com.sk89q.worldguard.bukkit.BukkitUtil.toVector(loc));
+        return rm.getApplicableRegions(BukkitAdapter.asBlockVector(loc));
     }
 
     public static Block getTargetBlock(Player player, int range) {
@@ -93,8 +97,7 @@ public class Utils {
     public static WorldGuardPlugin getWorldGuard() {
         Plugin plugin = getServer().getPluginManager().getPlugin("WorldGuard");
 
-        // WorldGuard may not be loaded
-        if (plugin == null || !(plugin instanceof WorldGuardPlugin)) {
+        if (!(plugin instanceof WorldGuardPlugin)) {
             return null;
         }
         return (WorldGuardPlugin) plugin;
@@ -118,7 +121,7 @@ public class Utils {
     }
 
     public static StateFlag getFlag(String flag) {
-        WorldGuardPlugin wg = getWorldGuard();
+        WorldGuard wg = WorldGuard.getInstance();
         if (wg == null) {
             return null;
         }
@@ -154,10 +157,10 @@ public class Utils {
 
     public static void sendActionbar(Player player, String message) {
         if (player == null || message == null) return;
-        String nmsVersion = Bukkit.getServer().getClass().getPackage().getName();
+        /*String nmsVersion = Bukkit.getServer().getClass().getPackage().getName();
         nmsVersion = nmsVersion.substring(nmsVersion.lastIndexOf(".") + 1);
 
-        //1.8.x and 1.9.x
+
         try {
             Class<?> craftPlayerClass = Class.forName("org.bukkit.craftbukkit." + nmsVersion + ".entity.CraftPlayer");
             Object craftPlayer = craftPlayerClass.cast(player);
@@ -183,7 +186,8 @@ public class Utils {
         } catch (Exception ex) {
             ex.printStackTrace();
         }
-
+        */
+        player.spigot().sendMessage(ChatMessageType.ACTION_BAR, new ComponentBuilder(message).create());
     }
 
     public static String getRegion(Location location) {
@@ -216,6 +220,20 @@ public class Utils {
         }, 0, seconds * 20L);
 
 
+    }
+
+    public static boolean canBuild(Player player, Location loc) {
+        if (player == null || loc == null) return false;
+        WorldGuard wg = WorldGuard.getInstance();
+        if (wg == null) return false;
+        RegionContainer rc = wg.getPlatform().getRegionContainer();
+        if (rc == null) return false;
+        World word = BukkitAdapter.adapt(loc.getWorld());
+        RegionManager rm = rc.get(word);
+        if (rm == null) return false;
+        ProtectedRegion r = rm.getApplicableRegions(BukkitAdapter.asBlockVector(loc)).getRegions().iterator().next();
+        if (r == null) return false;
+        return r.getMembers().contains(player.getUniqueId()) || r.getOwners().contains(player.getUniqueId());
     }
 
 

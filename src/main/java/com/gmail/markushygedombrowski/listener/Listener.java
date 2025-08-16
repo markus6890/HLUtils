@@ -15,7 +15,7 @@ import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
 
 public class Listener implements org.bukkit.event.Listener {
-private CobWeb cobWeb;
+    private CobWeb cobWeb;
 
     public Listener(CobWeb cobWeb) {
         this.cobWeb = cobWeb;
@@ -64,26 +64,23 @@ private CobWeb cobWeb;
     @EventHandler
     public void ironDoor(PlayerInteractEvent event) {
         if (event.getAction() == Action.RIGHT_CLICK_BLOCK) {
+            if (event.getClickedBlock() == null) return;
             if (event.getClickedBlock().getType() == Material.IRON_DOOR) {
                 Block block = event.getClickedBlock();
-                if(Utils.isLocInRegion(block.getLocation(), "jaildoor-a") && !event.getPlayer().hasPermission("vagt")) {
+                if (Utils.isLocInRegion(block.getLocation(), "jaildoor-a") && !event.getPlayer().hasPermission("vagt")) {
                     return;
                 }
-                if (Utils.getWorldGuard().canBuild(event.getPlayer(), block.getLocation()) || event.getPlayer().hasPermission("irondoor")) {
+                if (Utils.canBuild(event.getPlayer(), block.getLocation()) || event.getPlayer().hasPermission("irondoor")) {
                     if (block.getType() == Material.IRON_DOOR) {
-                        if (block.getData() >= 8) {
-                            block = block.getRelative(BlockFace.DOWN);
-                        }
-                        if (block.getType() == Material.IRON_DOOR) {
-                            Door door = (Door) block.getBlockData();
-                            if(door.isOpen()){
-                                door.setOpen(false);
-                                block.setBlockData(door);
-                                return;
-                            }
-                            door.setOpen(true);
+                        Door door = (Door) block.getBlockData();
+                        if (door.isOpen()) {
+                            door.setOpen(false);
                             block.setBlockData(door);
+                            return;
                         }
+                        door.setOpen(true);
+                        block.setBlockData(door);
+
                     }
 
 
@@ -114,13 +111,13 @@ private CobWeb cobWeb;
     private boolean cobweb(BlockBreakEvent event, Player player, Block block) {
         if (player.hasPermission("breakcobweb")) {
             if (block.getType() == Material.COBWEB) {
-                if(cobWeb.contains(block.getLocation())){
+                if (cobWeb.contains(block.getLocation())) {
                     player.sendMessage("§cDu har allerede smadret dette cobweb inden for de sidste 3 timer");
                     event.setCancelled(true);
                     event.isCancelled();
                     return true;
                 }
-                if(player.getItemInHand().getType() != Material.DIAMOND_SWORD) {
+                if (player.getItemInHand().getType() != Material.DIAMOND_SWORD) {
                     player.sendMessage("§cDu skal bruge et §b§lDiamond Sword §cfor at smadre cobweb");
                     event.setCancelled(true);
                     event.isCancelled();

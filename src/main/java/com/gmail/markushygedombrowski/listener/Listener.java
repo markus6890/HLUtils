@@ -6,8 +6,10 @@ import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
+import org.bukkit.block.Sign;
 import org.bukkit.block.data.type.Door;
 import org.bukkit.entity.Player;
+import org.bukkit.entity.ThrowableProjectile;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.block.BlockBreakEvent;
@@ -44,6 +46,19 @@ public class Listener implements org.bukkit.event.Listener {
             event.isCancelled();
         }
 
+
+    }
+    @EventHandler
+    public void onSignClick(PlayerInteractEvent event) {
+        Player p = event.getPlayer();
+        if(event.getAction() == Action.RIGHT_CLICK_BLOCK) {
+            if(event.getClickedBlock().getState() instanceof Sign) {
+                if(p.isOp() || p.hasPermission("bygger")) {
+                    return;
+                }
+                event.setCancelled(true);
+            }
+        }
 
     }
 

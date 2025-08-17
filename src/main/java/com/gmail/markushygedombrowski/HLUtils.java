@@ -147,7 +147,8 @@ public class HLUtils extends JavaPlugin {
         getCommand("creategui").setExecutor(createGuiCommand);
         WaterRunCommand waterRunCommand = new WaterRunCommand();
         getCommand("waterrun").setExecutor(waterRunCommand);
-
+        RenameCommand renameCommand = new RenameCommand();
+        getCommand("rename").setExecutor(renameCommand);
 
 
     }

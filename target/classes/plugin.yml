@@ -27,5 +27,3 @@ commands:
     description: "create gui"
   waterrun:
     description: "water run"
-  rename:
-    description: "rename command"

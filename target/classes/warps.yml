@@ -1,0 +1,10 @@
+warps:
+  1:
+    name: "defaultwarp"
+    location:
+      x: 50
+      y: 100
+      z: 20
+      yawn: 34
+      pitch: 12
+      world: "world"
